@@ -1,0 +1,2 @@
+docker  update status redis --restart=always  //开机自动启动
+docker  update status redis --restart=always
