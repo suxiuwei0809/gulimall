@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    #type: com.alibaba.druid.pool.DruidDataSource
+    #MySQL配置
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.15.10:3306/gulimall_pms?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        password: nacos
+        username: nacos
+  application:
+    name: gulimall-gateway
+
+mybatis-plus:
+  mapperLocations: classpath:mapper/**/*.xml
+  global-config:
+    db-config:
+      id-type: auto
+server:
+  port: 20000
