@@ -96,6 +96,7 @@
   export default {
     data () {
       return {
+        catId:0,
         dataForm: {
           key: ''
         },
@@ -112,14 +113,14 @@
       AddOrUpdate,Category
     },
     activated () {
-      this.getDataList()
+      //this.getDataList()
     },
     methods: {
       // 获取数据列表
       getDataList () {
         this.dataListLoading = true
         this.$http({
-          url: this.$http.adornUrl('/product/attrgroup/list'),
+          url: this.$http.adornUrl(`/product/attrgroup/list/${this.catId}`),
           method: 'get',
           params: this.$http.adornParams({
             'page': this.pageIndex,
@@ -139,6 +140,10 @@
       },
       treeNodeClick(data,node,comp){
         console.log("父节点已经收到"+data.catId)
+        if(node.level==3){
+          this.catId=data.catId;
+          this.getDataList();
+        }
       },
       // 每页数
       sizeChangeHandle (val) {

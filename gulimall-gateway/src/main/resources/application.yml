@@ -1,17 +1,39 @@
+
 spring:
   datasource:
     #type: com.alibaba.druid.pool.DruidDataSource
     #MySQL配置
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.15.10:3306/gulimall_pms?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://127.0.0.1:3306/gulimall_sms?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
     password: root
   cloud:
     nacos:
       discovery:
-        server-addr: 127.0.0.1:8848
+        server-addr: 47.98.34.187:8848
         password: nacos
         username: nacos
+    gateway:
+      routes:
+        - id: product_route
+          uri: lb://gulimall-product
+          predicates:
+             - Path=/api/product/**,/hello
+          filters:
+             - RewritePath=/api/(?<segment>.*),/$\{segment}
+        - id: third_party_route
+          uri: lb://gulimall-third-party
+          predicates:
+              - Path=/api/thirdparty/**,/hello
+          filters:
+              - RewritePath=/api/thirdparty/(?<segment>.*),/$\{segment}
+        #没有匹配到的，交给后台
+        - id: admin_route
+          uri: lb://renren-fast #负载均衡到哪里
+          predicates: #你的判断依据是：
+            - Path=/api/**
+          filters: #路径重写 下面是！
+            - RewritePath=/api/(?<segment>.*),/renren-fast/$\{segment}
   application:
     name: gulimall-gateway
 
@@ -21,4 +43,4 @@ mybatis-plus:
     db-config:
       id-type: auto
 server:
-  port: 20000
+  port: 88

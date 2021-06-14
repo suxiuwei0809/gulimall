@@ -3,7 +3,7 @@ spring:
         type: com.alibaba.druid.pool.DruidDataSource
         druid:
             driver-class-name: com.mysql.jdbc.Driver
-            url: jdbc:mysql://192.168.15.10:3306/gulimall_admin?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+            url: jdbc:mysql://127.0.0.1:3306/gulimall_admin?serverTimezone=Asia/Shanghai&allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
             username: root
             password: root
             initial-size: 10
@@ -33,7 +33,14 @@ spring:
                     config:
                         multi-statement-allow: true
 
-
+    cloud:
+        nacos:
+            discovery:
+                server-addr: 47.98.34.187:8848
+                password: nacos
+                username: nacos
+    application:
+        name: renren-fast
 ##多数据源的配置
 #dynamic:
 #  datasource:

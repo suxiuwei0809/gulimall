@@ -59,11 +59,11 @@ public class Query<T> {
         }
 
         //默认排序
-        if(isAsc) {
-            page.setAsc(defaultOrderField);
-        }else {
-            page.setDesc(defaultOrderField);
-        }
+//        if(isAsc) {
+//            page.setAsc(defaultOrderField);
+//        }else {
+//            page.setDesc(defaultOrderField);
+//        }
 
         return page;
     }

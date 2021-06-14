@@ -1,4 +1,4 @@
-package com.atguigu.gulimall.product;
+package com.atguigu.gulimall.ware;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -7,11 +7,11 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @EnableDiscoveryClient
 @SpringBootApplication
-@MapperScan("com.atguigu.gulimall.product.dao")
-public class GulimallGateWayApplication {
+@MapperScan("com.atguigu.gulimall.ware.dao")
+public class GulimallWareApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(GulimallGateWayApplication.class, args);
+        SpringApplication.run(GulimallWareApplication.class, args);
     }
 
 }

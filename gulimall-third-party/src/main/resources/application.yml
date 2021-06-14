@@ -11,18 +11,7 @@ spring:
       discovery:
         server-addr: 47.98.34.187:8848
         password: nacos
-        username: nacos
-          # username
-          #spring.cloud.nacos.config.server-addr=47.98.34.187:8848
-          #spring.cloud.nacos.config.username=nacos
-          #spring.cloud.nacos.config.password=nacos
-        #spring.cloud.nacos.config.namespace=1000
-        #spring.cloud.nacos.config.refresh.enabled=true
-      config:
-        server-addr:  47.98.34.187:8848
-        enabled: true
-        password: nacos
-        username: nacos
+        username: naco
   application:
     name: gulimall-third-party
 server:

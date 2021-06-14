@@ -2,7 +2,8 @@
   <el-dialog
     :title="!dataForm.id ? '新增' : '修改'"
     :close-on-click-modal="false"
-    :visible.sync="visible">
+    :visible.sync="visible"
+    closed="closeDialog">
     <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
     <el-form-item label="组名" prop="attrGroupName">
       <el-input v-model="dataForm.attrGroupName" placeholder="组名"></el-input>
@@ -17,7 +18,12 @@
       <el-input v-model="dataForm.icon" placeholder="组图标"></el-input>
     </el-form-item>
     <el-form-item label="所属分类id" prop="catelogId">
-      <el-input v-model="dataForm.catelogId" placeholder="所属分类id"></el-input>
+      <el-cascader
+        v-model="dataForm.catelogIds"
+        :options="categories"
+        :props="props"
+        placeholder="所属分类id"
+      filterable="true"></el-cascader>
     </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
@@ -32,13 +38,16 @@
     data () {
       return {
         visible: false,
+        categories:[],
+         props:{value:"catId",label:"name",children:"children"},
         dataForm: {
           attrGroupId: 0,
           attrGroupName: '',
           sort: '',
           descript: '',
           icon: '',
-          catelogId: ''
+          catelogIds:[],
+          catelogId:0,
         },
         dataRule: {
           attrGroupName: [
@@ -59,6 +68,9 @@
         }
       }
     },
+    created(){
+      this.getCategories()
+    },
     methods: {
       init (id) {
         this.dataForm.attrGroupId = id || 0
@@ -77,6 +89,7 @@
                 this.dataForm.descript = data.attrGroup.descript
                 this.dataForm.icon = data.attrGroup.icon
                 this.dataForm.catelogId = data.attrGroup.catelogId
+                this.dataForm.catelogIds=data.attrGroup.catelogPath
               }
             })
           }
@@ -84,6 +97,7 @@
       },
       // 表单提交
       dataFormSubmit () {
+        console.log(this.dataForm)
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
             this.$http({
@@ -95,7 +109,7 @@
                 'sort': this.dataForm.sort,
                 'descript': this.dataForm.descript,
                 'icon': this.dataForm.icon,
-                'catelogId': this.dataForm.catelogId
+                'catelogId': this.dataForm.catelogIds[this.dataForm.catelogIds.length-1]
               })
             }).then(({data}) => {
               if (data && data.code === 0) {
@@ -114,6 +128,17 @@
             })
           }
         })
+      },
+      getCategories(){
+        this.$http({
+          url: this.$http.adornUrl("/product/category/list/tree"),
+          method: "post"
+        }).then(res => {
+          this.categories = res.data.page;
+        });
+      },
+      closeDialog(){
+        this.dataForm.ccatelogIds=[];
       }
     }
   }
