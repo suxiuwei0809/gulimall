@@ -82,6 +82,7 @@ public class BrandController {
     //@RequiresPermissions("product:brand:update")
     public R update(@Validated(UpdateGroup.class)@RequestBody BrandEntity brand){
 		brandService.updateById(brand);
+		//修改关联表的品牌名称
         categoryBrandRelationService.updateBrand(brand.getBrandId(),brand.getName());
         return R.ok();
     }

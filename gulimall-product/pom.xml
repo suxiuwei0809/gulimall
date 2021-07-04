@@ -93,7 +93,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
         </dependency>
-   
+
 
 
         <!--属性提示工具 自创配置文件的时候就有提示了 -->

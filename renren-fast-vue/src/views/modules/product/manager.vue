@@ -93,6 +93,7 @@
 <script>
 import CategoryCascader from "../common/category-cascader";
 import BrandSelect from "../common/brand-select";
+import PubSub from "pubsub-js";
 export default {
   data() {
     return {

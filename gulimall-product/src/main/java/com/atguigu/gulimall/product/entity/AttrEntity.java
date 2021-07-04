@@ -2,10 +2,9 @@ package com.atguigu.gulimall.product.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
-import lombok.Data;
 
 /**
  * 商品属性
@@ -40,6 +39,10 @@ public class AttrEntity implements Serializable {
 	 * 可选值列表[用逗号分隔]
 	 */
 	private String valueSelect;
+	/**
+	 * 可选值列表[0：只能单个值，1：允许多个值]
+	 */
+	private Integer valueType;
 	/**
 	 * 属性类型[0-销售属性，1-基本属性，2-既是销售属性又是基本属性]
 	 */

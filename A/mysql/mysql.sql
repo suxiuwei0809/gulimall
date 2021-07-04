@@ -321,6 +321,7 @@ create table pms_attr
    attr_name            char(30) comment '属性名',
    search_type          tinyint comment '是否需要检索[0-不需要，1-需要]',
    icon                 varchar(255) comment '属性图标',
+   value_type           tinyint comment '0：只能单个值，1：允许多个值',
    value_select         char(255) comment '可选值列表[用逗号分隔]',
    attr_type            tinyint comment '属性类型[0-销售属性，1-基本属性，2-既是销售属性又是基本属性]',
    enable               bigint comment '启用状态[0 - 禁用，1 - 启用]',
