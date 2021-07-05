@@ -23,14 +23,7 @@ public class OssController {
     private  String bucket;
     @Value("${alibaba.cloud.access-key}")
     private  String accessId;
-//    //@Value("${oss.endpoint}")
-//    private  String endpoint="oss-cn-hangzhou.aliyuncs.com";
-//    // @Value("${oss.sts.access-key}")
-//    private  String accessId="LTAI5tRttyYj5cJuWPRG1ktA";
-//    //@Value("${oss.sts.secret-key}")
-//    private  String accessKey="dw6clEGxoEuWTX2QmdB6RCdTjQjJL2";
-//    // @Value("${oss.bucket}")
-//    private  String bucket="suxiuwei";
+
 
 
     @RequestMapping("/oss/policy")
