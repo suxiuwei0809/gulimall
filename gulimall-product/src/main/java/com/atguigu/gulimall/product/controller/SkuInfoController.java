@@ -4,7 +4,6 @@ import com.atguigu.common.utils.PageUtils;
 import com.atguigu.common.utils.R;
 import com.atguigu.gulimall.product.entity.SkuInfoEntity;
 import com.atguigu.gulimall.product.service.SkuInfoService;
-import com.atguigu.gulimall.product.service.SpuInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,19 +24,9 @@ import java.util.Map;
 public class SkuInfoController {
     @Autowired
     private SkuInfoService skuInfoService;
-    @Autowired
-    private SpuInfoService spuInfoService;
 
-    /**
-     * 列表
-     */
-    @RequestMapping("/{spuId}/up")
-    //@RequiresPermissions("product:skuinfo:list")
-    public R up(@PathVariable Long spuId){
-        spuInfoService.up(spuId);
 
-        return R.ok();
-    }
+
     /**
      * 列表
      */
