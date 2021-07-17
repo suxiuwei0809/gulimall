@@ -4,7 +4,7 @@
 <mapper namespace="com.atguigu.gulimall.order.dao.OrderSettingDao">
 
 	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.atguigu.gulimall.order.entity.OrderSettingEntity" id="orderSettingMap">
+    <resultMap type="com.atguigu.gulimall.search.entity.OrderSettingEntity" id="orderSettingMap">
         <result property="id" column="id"/>
         <result property="flashOrderOvertime" column="flash_order_overtime"/>
         <result property="normalOrderOvertime" column="normal_order_overtime"/>

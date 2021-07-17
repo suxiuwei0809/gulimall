@@ -4,7 +4,7 @@
 <mapper namespace="com.atguigu.gulimall.order.dao.PaymentInfoDao">
 
 	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.atguigu.gulimall.order.entity.PaymentInfoEntity" id="paymentInfoMap">
+    <resultMap type="com.atguigu.gulimall.search.entity.PaymentInfoEntity" id="paymentInfoMap">
         <result property="id" column="id"/>
         <result property="orderSn" column="order_sn"/>
         <result property="orderId" column="order_id"/>

@@ -25,3 +25,6 @@
 logging:
   level:
     com.atguigu.gulimall: debug
+spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss

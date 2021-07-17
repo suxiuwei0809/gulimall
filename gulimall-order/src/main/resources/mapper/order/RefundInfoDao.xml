@@ -4,7 +4,7 @@
 <mapper namespace="com.atguigu.gulimall.order.dao.RefundInfoDao">
 
 	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.atguigu.gulimall.order.entity.RefundInfoEntity" id="refundInfoMap">
+    <resultMap type="com.atguigu.gulimall.search.entity.RefundInfoEntity" id="refundInfoMap">
         <result property="id" column="id"/>
         <result property="orderReturnId" column="order_return_id"/>
         <result property="refund" column="refund"/>
