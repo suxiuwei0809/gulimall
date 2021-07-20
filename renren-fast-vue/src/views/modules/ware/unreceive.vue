@@ -3,7 +3,7 @@
     <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
       <el-form-item label="状态">
         <el-select style="width:120px;" v-model="dataForm.status" placeholder="请选择状态" clearable>
-          <el-option label="新建" :value="0"></el-option>
+<!--          <el-option label="新建" :value="0"></el-option>-->
           <el-option label="已分配" :value="1"></el-option>
           <el-option label="已领取" :value="2"></el-option>
           <el-option label="已完成" :value="3"></el-option>
@@ -15,17 +15,7 @@
       </el-form-item>
       <el-form-item>
         <el-button @click="getDataList()">查询</el-button>
-        <el-button
-          v-if="isAuth('ware:purchase:save')"
-          type="primary"
-          @click="addOrUpdateHandle()"
-        >新增</el-button>
-        <el-button
-          v-if="isAuth('ware:purchase:delete')"
-          type="danger"
-          @click="deleteHandle()"
-          :disabled="dataListSelections.length <= 0"
-        >批量删除</el-button>
+
       </el-form-item>
     </el-form>
     <el-table
@@ -54,16 +44,21 @@
       <el-table-column prop="amount" header-align="center" align="center" label="总金额(￥)"></el-table-column>
       <el-table-column prop="createTime" header-align="center" align="center" label="创建日期"></el-table-column>
       <el-table-column prop="updateTime" header-align="center" align="center" label="更新日期"></el-table-column>
-      <el-table-column fixed="right" header-align="center" align="center" width="150" label="操作">
+      <el-table-column fixed="right"  header-align="center" align="center" width="150" label="操作">
         <template slot-scope="scope">
           <el-button
             type="text"
             size="small"
-            v-if="scope.row.status==0||scope.row.status==1"
-            @click="opendrawer(scope.row)"
-          >分配</el-button>
-          <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">修改</el-button>
-          <el-button type="text" size="small" @click="deleteHandle(scope.row.id)">删除</el-button>
+            v-if="scope.row.status==1"
+            @click="receivedHandle(scope.row.id)"
+          >领取采购单</el-button>
+          <el-button
+            type="text"
+            size="small"
+            v-if="scope.row.status==2"
+            @click="doneHandle(scope.row.id)"
+          >完成采购单</el-button>
+
         </template>
       </el-table-column>
     </el-table>
@@ -76,34 +71,20 @@
       :total="totalPage"
       layout="total, sizes, prev, pager, next, jumper"
     ></el-pagination>
-    <!-- 弹窗, 新增 / 修改 -->
-    <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getDataList"></add-or-update>
-    <el-dialog title="分配采购人员" :visible.sync="caigoudialogVisible" width="30%">
-      <el-select v-model="userId" filterable placeholder="请选择">
-        <el-option
-          v-for="item in userList"
-          :key="item.userId"
-          :label="item.username"
-          :value="item.userId"
-        ></el-option>
-      </el-select>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="caigoudialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="assignUser">确 定</el-button>
-      </span>
-    </el-dialog>
+  <purchaseonedetail v-if="dialogVisible" ref="onedetail" :data="purchaseId"></purchaseonedetail>
   </div>
 </template>
 
 <script>
-import AddOrUpdate from "./purchase-add-or-update";
+import purchaseonedetail from "./purchaseonedetail";
 export default {
+  components:{purchaseonedetail},
   data() {
     return {
       currentRow: {},
       dataForm: {
         key: "",
-        status: ""
+        status: "1"
       },
       dataList: [],
       pageIndex: 1,
@@ -111,15 +92,13 @@ export default {
       totalPage: 0,
       dataListLoading: false,
       dataListSelections: [],
-      addOrUpdateVisible: false,
-      caigoudialogVisible: false,
+      purchaseId:"",
+      dialogVisible: false,
       userId: "",
       userList: []
     };
   },
-  components: {
-    AddOrUpdate
-  },
+
   activated() {
     this.getDataList();
   },
@@ -130,17 +109,17 @@ export default {
     opendrawer(row){
       this.getUserList();
       this.currentRow = row;
-      this.caigoudialogVisible = true;
+      this.dialogVisible = true;
     },
     assignUser() {
       let _this = this;
       let user = {};
       this.userList.forEach(item=>{
         if(item.userId == _this.userId){
-            user = item;
+          user = item;
         }
       });
-      this.caigoudialogVisible = false;
+      this.dialogVisible = false;
       this.$http({
         url: this.$http.adornUrl(
           `/ware/purchase/update`
@@ -189,7 +168,8 @@ export default {
         params: this.$http.adornParams({
           page: this.pageIndex,
           limit: this.pageSize,
-          key: this.dataForm.key
+          key: this.dataForm.key,
+          status: this.dataForm.status
         })
       }).then(({ data }) => {
         if (data && data.code === 0) {
@@ -217,22 +197,15 @@ export default {
     selectionChangeHandle(val) {
       this.dataListSelections = val;
     },
-    // 新增 / 修改
-    addOrUpdateHandle(id) {
-      this.addOrUpdateVisible = true;
-      this.$nextTick(() => {
-        this.$refs.addOrUpdate.init(id);
-      });
-    },
-    // 删除
-    deleteHandle(id) {
-      var ids = id
-        ? [id]
-        : this.dataListSelections.map(item => {
-            return item.id;
-          });
+
+
+    // 领取采购单
+    receivedHandle(id) {
+      var ids = id ? [id] : this.dataListSelections.map(item => {
+          return item.id;
+        });
       this.$confirm(
-        `确定对[id=${ids.join(",")}]进行[${id ? "删除" : "批量删除"}]操作?`,
+        `确定对[id=${ids.join(",")}]进行[${id ? "领取" : "批量领取"}]操作?`,
         "提示",
         {
           confirmButtonText: "确定",
@@ -241,7 +214,7 @@ export default {
         }
       ).then(() => {
         this.$http({
-          url: this.$http.adornUrl("/ware/purchase/delete"),
+          url: this.$http.adornUrl("/ware/purchase/received"),
           method: "post",
           data: this.$http.adornData(ids, false)
         }).then(({ data }) => {
@@ -259,7 +232,11 @@ export default {
           }
         });
       });
-    }
+    },
+    doneHandle(id){
+      this.dialogVisible=true;
+      this.purchaseId=id;
+    },
   }
 };
 </script>

@@ -71,6 +71,7 @@ public class PurchaseController {
 
     /**
      * 列表
+     * /ware/purchase/list
      */
     @RequestMapping("/list")
     //@RequiresPermissions("ware:purchase:list")

@@ -15,6 +15,9 @@
     <insert id="addStock">
         update  wms_ware_sku set stock=stock+#{stock}   where    sku_id=#{skuId}  and  ware_id=#{wareId}
     </insert>
+    <select id="getSkuStock" resultType="java.lang.Long">
+        select  sum(stock-stock_locked) from   wms_ware_sku  where  sku_id=#{skuId}
+    </select>
 
 
 </mapper>
