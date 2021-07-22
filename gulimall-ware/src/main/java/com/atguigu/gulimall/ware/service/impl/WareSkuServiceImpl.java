@@ -66,9 +66,12 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
             }catch (Exception e){}
             //wareSkuEntity.setSkuName("");
             this.save(wareSkuEntity);
+        }else {
+
+            //如果之前添加过库存 库存加起来
+            wareSkuDao.addStock(skuId, wareId,skuNum);
         }
-        //如果之前添加过库存 库存加起来
-        wareSkuDao.addStock(skuId, wareId,skuNum);
+
     }
 
     @Override
@@ -77,7 +80,7 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
             SkuHasStockVo skuHasStockVo = new SkuHasStockVo();
             //查询当前sku的总库存量
             Long count = baseMapper.getSkuStock(skuId);
-            skuHasStockVo.setHasStock(count > 0);
+            skuHasStockVo.setHasStock(count==null?false:count>0);
             skuHasStockVo.setSkuId(skuId);
             return skuHasStockVo;
         }).collect(Collectors.toList());

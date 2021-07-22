@@ -71,7 +71,7 @@
       :total="totalPage"
       layout="total, sizes, prev, pager, next, jumper"
     ></el-pagination>
-  <purchaseonedetail v-if="dialogVisible" ref="onedetail" :data="purchaseId"></purchaseonedetail>
+  <purchaseonedetail v-if="dialogVisible" ref="onedetail"  ></purchaseonedetail>
   </div>
 </template>
 
@@ -106,59 +106,8 @@ export default {
 
   },
   methods: {
-    opendrawer(row){
-      this.getUserList();
-      this.currentRow = row;
-      this.dialogVisible = true;
-    },
-    assignUser() {
-      let _this = this;
-      let user = {};
-      this.userList.forEach(item=>{
-        if(item.userId == _this.userId){
-          user = item;
-        }
-      });
-      this.dialogVisible = false;
-      this.$http({
-        url: this.$http.adornUrl(
-          `/ware/purchase/update`
-        ),
-        method: "post",
-        data: this.$http.adornData({
-          id: this.currentRow.id || undefined,
-          assigneeId: user.userId,
-          assigneeName: user.username,
-          phone: user.mobile,
-          status: 1
-        })
-      }).then(({ data }) => {
-        if (data && data.code === 0) {
-          this.$message({
-            message: "操作成功",
-            type: "success",
-            duration: 1500
-          });
 
-          this.userId = "";
-          this.getDataList();
-        } else {
-          this.$message.error(data.msg);
-        }
-      });
-    },
-    getUserList() {
-      this.$http({
-        url: this.$http.adornUrl("/sys/user/list"),
-        method: "get",
-        params: this.$http.adornParams({
-          page: 1,
-          limit: 500
-        })
-      }).then(({ data }) => {
-        this.userList = data.page.list;
-      });
-    },
+
     // 获取数据列表
     getDataList() {
       this.dataListLoading = true;
@@ -235,7 +184,9 @@ export default {
     },
     doneHandle(id){
       this.dialogVisible=true;
-      this.purchaseId=id;
+      this.$nextTick(() => {
+        this.$refs.onedetail.init(id)
+      })
     },
   }
 };

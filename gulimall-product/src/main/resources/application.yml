@@ -25,6 +25,8 @@
 logging:
   level:
     com.atguigu.gulimall: debug
+    com.alibaba.nacos.client.config.impl: WARN
 spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8

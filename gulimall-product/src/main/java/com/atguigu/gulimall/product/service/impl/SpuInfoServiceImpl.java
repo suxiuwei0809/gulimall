@@ -1,5 +1,6 @@
 package com.atguigu.gulimall.product.service.impl;
 
+import com.alibaba.fastjson.TypeReference;
 import com.atguigu.common.constant.ProductConstant;
 import com.atguigu.common.to.SkuReductionTO;
 import com.atguigu.common.to.SpuBoundTO;
@@ -128,7 +129,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
                 SkuInfoEntity skuInfoEntity = new SkuInfoEntity();
                 BeanUtils.copyProperties(item, skuInfoEntity);
                 skuInfoEntity.setCatalogId(spuInfoEntity.getCatalogId());
-                skuInfoEntity.setBrandId(skuInfoEntity.getBrandId());
+                skuInfoEntity.setBrandId(spuInfoEntity.getBrandId());
                 skuInfoEntity.setSaleCount(0L);
                 skuInfoEntity.setSpuId(spuInfoEntity.getId());
                 skuInfoEntity.setSkuDefaultImg(defaultImg);
@@ -248,16 +249,14 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
          * 批量查询
          */
         List<Long> skuIds = skus.stream().map(SkuInfoEntity::getSkuId).collect(Collectors.toList());
-        R<List<SkuHasStockVo>> skusHasStock=null;
-      try {
-          skusHasStock = wareFeignService.getSkusHasStock(skuIds);
+        R skusHasStock = new R();
+        try {
+            skusHasStock = wareFeignService.getSkusHasStock(skuIds);
       }catch (Exception e){
           log.error("远程查询异常");
       }
-
-        List<SkuHasStockVo> hasStockVoList =   skusHasStock.getData();
-        Map<Long, Boolean> hasStockMap = hasStockVoList.stream().collect(Collectors.toMap(SkuHasStockVo::getSkuId, item -> item.getHasStock()));
-        R<List<SkuHasStockVo>> finalSkusHasStock = skusHasStock;
+        Map<Long, Boolean> hasStockMap = skusHasStock.getData(new TypeReference<List<SkuHasStockVo>>(){}).stream().collect(Collectors.toMap(SkuHasStockVo::getSkuId, item -> item.getHasStock()));
+        Map<Long, Boolean> finalSkusHasStock = hasStockMap;
         List<SkuEsModel> collect = skus.stream().map(item -> {
             //1、组装需要的数据
             SkuEsModel skuEsModel = new SkuEsModel();

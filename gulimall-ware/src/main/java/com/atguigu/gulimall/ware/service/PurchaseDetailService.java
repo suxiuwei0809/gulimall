@@ -20,5 +20,6 @@ public interface PurchaseDetailService extends IService<PurchaseDetailEntity> {
 
     List<PurchaseDetailEntity> listDetailByPurchaseId(Long id);
 
+
 }
 

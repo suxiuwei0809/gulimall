@@ -3,6 +3,7 @@ package com.atguigu.gulimall.search.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.atguigu.common.to.es.SkuEsModel;
 import com.atguigu.gulimall.search.config.ElasticSearchConfig;
+import com.atguigu.gulimall.search.constant.EsConstant;
 import com.atguigu.gulimall.search.service.ProductSaveService;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.bulk.BulkRequest;
@@ -31,7 +32,7 @@ public class ProductSaveServiceImp implements ProductSaveService {
          */
         BulkRequest bulkRequest = new BulkRequest();
         for (SkuEsModel skuEsModel:skuEsModelList) {
-            IndexRequest indexRequest = new IndexRequest();
+            IndexRequest indexRequest = new IndexRequest(EsConstant.PRODUCT_INDEX);
             indexRequest.id(skuEsModel.getSkuId().toString());
             String  a   = JSON.toJSONString(skuEsModel);
             indexRequest.source(a, XContentType.JSON);
@@ -43,6 +44,6 @@ public class ProductSaveServiceImp implements ProductSaveService {
             return item.getId();
         }).collect(Collectors.toList());
         log.error("商品上架出错："+collect);
-        return  !b;
+        return !b;
     }
 }
