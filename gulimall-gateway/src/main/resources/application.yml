@@ -4,7 +4,7 @@
 #    #type: com.alibaba.druid.pool.DruidDataSource
 #    #MySQL配置
 #    driverClassName: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://127.0.0.1:3306/gulimall_sms?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+#    url: jdbc:mysql://47.98.34.187:3306/gulimall_sms?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
 #    username: root
 #    password: root
 #  cloud:
@@ -18,21 +18,27 @@
 #        - id: product_route
 #          uri: lb://gulimall-product
 #          predicates:
-#             - Path=/api/product/**,/hello
+#            - Path=/api/product/**,/hello
 #          filters:
-#             - RewritePath=/api/(?<segment>.*),/$\{segment}
+#            - RewritePath=/api/(?<segment>.*),/$\{segment}
 #        - id: member_route
 #          uri: lb://gulimall-member
 #          predicates:
-#             - Path=/api/member/**,/hello
+#            - Path=/api/member/**,/hello
 #          filters:
-#             - RewritePath=/api/(?<segment>.*),/$\{segment}
+#            - RewritePath=/api/(?<segment>.*),/$\{segment}
 #        - id: third_party_route
 #          uri: lb://gulimall-third-party
 #          predicates:
-#              - Path=/api/thirdparty/**,/hello
+#            - Path=/api/thirdparty/**
 #          filters:
-#              - RewritePath=/api/thirdparty/(?<segment>.*),/$\{segment}
+#            - RewritePath=/api/thirdparty/(?<segment>.*),/$\{segment}
+#        - id: ware_route
+#          uri: lb://gulimall-ware
+#          predicates:
+#            - Path=/api/ware/**
+#          filters:
+#            - RewritePath=/api/(?<segment>.*),/$\{segment}
 #        #没有匹配到的，交给后台
 #        - id: admin_route
 #          uri: lb://renren-fast #负载均衡到哪里
@@ -40,6 +46,10 @@
 #            - Path=/api/**
 #          filters: #路径重写 下面是！
 #            - RewritePath=/api/(?<segment>.*),/renren-fast/$\{segment}
+#        - id: host_route
+#          uri: lb://gulimall-product
+#          predicates: #host鉴权**.gulimall.com来的请求都路由到gulimall-product服务
+#            - Host=**.gulimall.com
 #  application:
 #    name: gulimall-gateway
 #

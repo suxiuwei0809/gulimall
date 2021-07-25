@@ -47,26 +47,38 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     @Override
     public Long[] findCagelogPath(Long catelogId) {
         ArrayList path = new <Long>ArrayList();
-        ArrayList<Long>  parentPath   =getParentPath(catelogId,path);
+        ArrayList<Long> parentPath = getParentPath(catelogId, path);
         Collections.reverse(parentPath);
         return parentPath.toArray(new Long[parentPath.size()]);
     }
 
+    @Override
+    public List<CategoryEntity> getLevel1Catagories() {
+
+//        long start = System.currentTimeMillis();
+        List<CategoryEntity> parent_cid = this.list(new QueryWrapper<CategoryEntity>().eq("parent_cid", 0));
+//        System.out.println("查询一级菜单时间:"+(System.currentTimeMillis()-start));
+        return parent_cid;
+
+
+    }
+
     /**
+     * 递归查找父id并收集
      *
-     *递归查找父id并收集
      * @param catelogId
      * @param path
      * @return
      */
-    public  ArrayList<Long> getParentPath(Long catelogId,ArrayList<Long> path){
+    public ArrayList<Long> getParentPath(Long catelogId, ArrayList<Long> path) {
         path.add(catelogId);
-       CategoryEntity  category =this.getById(catelogId);
-       if(category.getParentCid()!=0){
-           getParentPath(category.getParentCid(),path);
-       }
-       return  path;
+        CategoryEntity category = this.getById(catelogId);
+        if (category.getParentCid() != 0) {
+            getParentPath(category.getParentCid(), path);
+        }
+        return path;
     }
+
     public List<CategoryEntity> getChildrens(CategoryEntity root, List<CategoryEntity> all) {
         List<CategoryEntity> children = all.stream().filter(m -> root.getCatId() == m.getParentCid()).map(m -> {
             m.setChildren(getChildrens(m, all));

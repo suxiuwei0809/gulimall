@@ -62,33 +62,33 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- 引入redis-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-data-redis</artifactId>-->
-<!--            <exclusions>-->
-<!--                &lt;!&ndash; Lettuce的bug导致netty堆外内存溢出 切换使用jedis&ndash;&gt;-->
-<!--                <exclusion>-->
-<!--                    <groupId>io.lettuce</groupId>-->
-<!--                    <artifactId>lettuce-core</artifactId>-->
-<!--                </exclusion>-->
-<!--            </exclusions>-->
-<!--        </dependency>-->
+        <!--  引入redis -->
+         <dependency>
+             <groupId>org.springframework.boot</groupId>
+             <artifactId>spring-boot-starter-data-redis</artifactId>
+             <exclusions>
+                 <!-- Lettuce的bug导致netty堆外内存溢出 切换使用jedis-->
+                <exclusion>
+                    <groupId>io.lettuce</groupId>
+                    <artifactId>lettuce-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
-        <!--Lettuce的bug导致netty堆外内存溢出 切换使用jedis-->
-<!--        <dependency>-->
-<!--            <groupId>redis.clients</groupId>-->
-<!--            <artifactId>jedis</artifactId>-->
-<!--        </dependency>-->
+        <!-- Lettuce的bug导致netty堆外内存溢出 切换使用jedis -->
+       <dependency>
+           <groupId>redis.clients</groupId>
+           <artifactId>jedis</artifactId>
+       </dependency>
 
-        <!--整合redisson 作为分布式锁，分布式对象等功能框架-->
-<!--        <dependency>-->
-<!--            <groupId>org.redisson</groupId>-->
-<!--            <artifactId>redisson</artifactId>-->
-<!--            <version>3.12.0</version>-->
-<!--        </dependency>-->
+        <!-- 整合redisson 作为分布式锁，分布式对象等功能框架 -->
+       <dependency>
+           <groupId>org.redisson</groupId>
+           <artifactId>redisson</artifactId>
+           <version>3.12.0</version>
+       </dependency>
 
-        <!--整合SringCache 简化缓存开发-->
+       <!--整合SringCache 简化缓存开发-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
