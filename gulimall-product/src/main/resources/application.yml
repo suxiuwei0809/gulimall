@@ -32,5 +32,13 @@ spring:
     time-zone: GMT+8
   thymeleaf:
     cache: false
-  mvc:
-    static-path-pattern: /static/**
+#  mvc:
+#    static-path-pattern: /static/**
+  redis:
+    host: 192.168.136.129
+    port: 6379
+  cache:
+    type: redis
+    redis:
+      time-to-live: 600000
+      cache-null-values: true

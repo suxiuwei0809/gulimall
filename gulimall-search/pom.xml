@@ -43,7 +43,18 @@
             <version>RELEASE</version>
             <scope>test</scope>
         </dependency>
+        <!--引入模版引擎 thymeleaf -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
 
+        <!--在不重启服务器的时候，实时更新html-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
 
 
     </dependencies>

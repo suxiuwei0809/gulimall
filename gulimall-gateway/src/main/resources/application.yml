@@ -1,4 +1,4 @@
-#如果一直有问题用手敲一下
+###如果一直有问题用手敲一下
 #spring:
 #  datasource:
 #    #type: com.alibaba.druid.pool.DruidDataSource
@@ -49,7 +49,11 @@
 #        - id: host_route
 #          uri: lb://gulimall-product
 #          predicates: #host鉴权**.gulimall.com来的请求都路由到gulimall-product服务
-#            - Host=**.gulimall.com
+#            - Host=gulimall.com
+#        - id: host_route
+#          uri: lb://gulimall-search
+#          predicates: #host鉴权**.gulimall.com来的请求都路由到gulimall-product服务
+#            - Host=search.gulimall.com
 #  application:
 #    name: gulimall-gateway
 #
@@ -60,6 +64,6 @@
 #      id-type: auto
 #server:
 #  port: 88
-
-
-
+#
+#
+#
