@@ -3,8 +3,6 @@ package com.atguigu.gulimall.product.vo;
 import lombok.Data;
 import lombok.ToString;
 
-import java.util.List;
-
 @ToString
 @Data
 public class ItemSaleAttrVo{
@@ -12,5 +10,5 @@ public class ItemSaleAttrVo{
 
 	private String attrName;
 
-	private List<AttrValueWithSkuIdVo> attrValues;
+	private String attrValues;
 }

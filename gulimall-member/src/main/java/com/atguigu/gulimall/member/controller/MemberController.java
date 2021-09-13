@@ -2,9 +2,15 @@ package com.atguigu.gulimall.member.controller;
 
 import com.atguigu.common.utils.PageUtils;
 import com.atguigu.common.utils.R;
+import com.atguigu.common.utils.exception.BizCodeEnum;
+import com.atguigu.common.vo.GiteeUser;
+import com.atguigu.gulimall.member.Exception.PhoneExistException;
+import com.atguigu.gulimall.member.Exception.UserNameExistException;
 import com.atguigu.gulimall.member.entity.MemberEntity;
 import com.atguigu.gulimall.member.feign.CouponFeign;
 import com.atguigu.gulimall.member.service.MemberService;
+import com.atguigu.gulimall.member.vo.MemberLoginVo;
+import com.atguigu.gulimall.member.vo.MemberRegisterVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,7 +49,45 @@ public class MemberController {
         return R.ok().put("page", page);
     }
 
+    /**
+     * 注册
+     */
+     @PostMapping("/register")
+     public R register(@RequestBody MemberRegisterVo vo){
+        try {
+            memberService.register(vo);
+        }catch (PhoneExistException e){
+            return R.error(BizCodeEnum.PHONE_EXIST_EXCEPTION.getCode(),BizCodeEnum.PHONE_EXIST_EXCEPTION.getMsg());
+        }catch (UserNameExistException e){
+            return R.error(BizCodeEnum.USER_EXIST_EXCEPTION.getCode(),BizCodeEnum.USER_EXIST_EXCEPTION.getMsg());
+        }
+        return R.ok();
+    }
+    /**
+     * 登录
+     */
+    @PostMapping("/login")
+    public R login(@RequestBody MemberLoginVo vo){
+        MemberEntity  memberEntity=  memberService.login(vo);
+        if(memberEntity!=null){
+            return R.ok().put("data",memberEntity);
+        }else {
+            return R.error(BizCodeEnum.LOGINACTT_PASSWORD_ERROR.getCode()
+            ,BizCodeEnum.LOGINACTT_PASSWORD_ERROR.getMsg());
+        }
+    }
 
+
+    @PostMapping("/oath/login")
+    public R oathLogin(@RequestBody GiteeUser  giteeUser){
+        MemberEntity  memberEntity=  memberService.oathLogin(giteeUser);
+        if(memberEntity!=null){
+            return R.ok().put("data",memberEntity);
+        }else {
+            return R.error(BizCodeEnum.LOGINACTT_PASSWORD_ERROR.getCode()
+                    ,BizCodeEnum.LOGINACTT_PASSWORD_ERROR.getMsg());
+        }
+    }
     /**
      * 信息
      */

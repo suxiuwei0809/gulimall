@@ -1,4 +1,3 @@
-###如果一直有问题用手敲一下
 #spring:
 #  datasource:
 #    #type: com.alibaba.druid.pool.DruidDataSource
@@ -46,14 +45,23 @@
 #            - Path=/api/**
 #          filters: #路径重写 下面是！
 #            - RewritePath=/api/(?<segment>.*),/renren-fast/$\{segment}
+#        - id: host_search
+#          uri: lb://gulimall-search
+#          predicates: #host鉴权search.gulimall.com来的请求都路由到gulimall-search服务
+#            - Host=search.gulimall.com
+#        - id: host_auth
+#          uri: lb://gulimall-auth
+#          predicates: #host鉴权auth.gulimall.com来的请求都路由到gulimall-auth服务
+#            - Host=auth.gulimall.com
+#        - id: host_cart
+#          uri: lb://gulimall-cart
+#          predicates: #host鉴权cart.gulimall.com来的请求都路由到gulimall-cart服务
+#            - Host=cart.gulimall.com
 #        - id: host_route
 #          uri: lb://gulimall-product
 #          predicates: #host鉴权**.gulimall.com来的请求都路由到gulimall-product服务
-#            - Host=gulimall.com
-#        - id: host_route
-#          uri: lb://gulimall-search
-#          predicates: #host鉴权**.gulimall.com来的请求都路由到gulimall-product服务
-#            - Host=search.gulimall.com
+#            - Host=gulimall.com,item.gulimall.com
+#
 #  application:
 #    name: gulimall-gateway
 #
@@ -64,6 +72,3 @@
 #      id-type: auto
 #server:
 #  port: 88
-#
-#
-#

@@ -12,6 +12,24 @@
         <result property="icon" column="icon"/>
         <result property="catelogId" column="catelog_id"/>
     </resultMap>
+    <!-- 有嵌套属性 需要自定返回-->
+    <resultMap type="com.atguigu.gulimall.product.vo.SpuItemAttrGroup" id="SpuItemAttrGroupMap">
+        <result property="groupName" column="attr_group_name"/>
+        <collection property="attrs" ofType="com.atguigu.gulimall.product.vo.SpuBaseAttrVo">
+            <result property="attrName" column="attr_name"/>
+            <result property="attrValue" column="attr_value"/>
+        </collection>
+    </resultMap>
+    <select id="getAttrGroupWithAttrsBySpuId" resultMap="SpuItemAttrGroupMap">
+        select  t1.attr_group_name,
+                t4.attr_name,
+                t4.attr_value
+         from  pms_attr_group  t1
+            left  join  pms_attr_attrgroup_relation   t2 on  t1.attr_group_id=t2.attr_group_id
+            left  join  pms_attr  t3 on t3.attr_id=t2.attr_id
+            left  join  pms_product_attr_value  t4 on t3.attr_id=t4.attr_id
+            where  t1.catelog_id=#{catalogId}  and  t4.spu_id=#{spuId}
+    </select>
 
 
 </mapper>

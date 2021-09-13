@@ -640,7 +640,7 @@
 									立即抢购
 								</a>
 							</div>
-              <div class="box-btns-two" th:if="${item.seckillInfoVo == null || (#dates.createNow().getTime() < item.seckillInfoVo.startTime || #dates.createNow().getTime() > item.seckillInfoVo.endTime)}">
+              <div class="box-btns-two" style="cursor: pointer" th:if="${item.seckillInfoVo == null || (#dates.createNow().getTime() < item.seckillInfoVo.startTime || #dates.createNow().getTime() > item.seckillInfoVo.endTime)}">
                 <a id="addToCartA" th:attr="skuId=${item.info.skuId}">
                   加入购物车
                 </a>
@@ -1504,7 +1504,7 @@
         let num = $("#numInput").val();
         // 获取当前按钮的自定义属性
         let skuId = $(this).attr("skuId");
-        location.href = "http://cart.gulimall.com/addToCart?skuId=" + skuId + "&num=" + num;
+        location.href = "http://cart.gulimall.com/addCartItem?skuId=" + skuId + "&num=" + num;
         return false;
     })
     $("#secKillA").click(function () {

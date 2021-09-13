@@ -92,6 +92,7 @@
       </b>
       <ul>
         <li th:if="${session.loginUser} !=null">
+
           <a>欢迎，[[${session.loginUser.username}]]</a>
           <!--              <a th:href="'http://member.gulimall.com/user/' + ${session.loginUser.id}+ '.html'">你好，[[${session.loginUser.username}]]</a>-->
         </li>

@@ -30,7 +30,7 @@ public class SkuItemVo {
 	/**
 	 * 销售属性组合
 	 */
-	List<ItemSaleAttrVo> saleAttr;
+	List<SkuItemSaleAttrVo> saleAttr;
 
 	/**
 	 * 介绍

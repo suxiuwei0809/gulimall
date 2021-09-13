@@ -30,7 +30,7 @@ public class SearchParam {
     /**
      * 是否显示有货
      */
-    private Integer hasStock=1;
+    private Integer hasStock;
 
     /**
      * 价格区间查询

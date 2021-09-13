@@ -13,7 +13,7 @@ import java.util.List;
  * Description：
  * date：2020/6/22 23:25
  */
-@FeignClient("mall-product")
+@FeignClient("gulimall-product")
 public interface ProductFeignService {
 
 	@GetMapping("/product/attr/info/{attrId}")
@@ -21,4 +21,7 @@ public interface ProductFeignService {
 
 	@GetMapping("/product/brand/infos")
 	R brandInfo(@RequestParam("brandIds") List<Long> brandIds);
+
+
+
 }

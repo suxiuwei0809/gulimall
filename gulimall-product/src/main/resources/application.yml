@@ -35,7 +35,7 @@ spring:
 #  mvc:
 #    static-path-pattern: /static/**
   redis:
-    host: 192.168.136.129
+    host: 192.168.31.10
     port: 6379
   cache:
     type: redis
