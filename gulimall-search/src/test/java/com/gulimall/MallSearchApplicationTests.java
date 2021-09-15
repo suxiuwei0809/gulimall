@@ -1,8 +1,8 @@
 package com.gulimall;
 
 import com.alibaba.fastjson.JSON;
-import com.atguigu.gulimall.search.bean.User;
-import com.atguigu.gulimall.search.config.ElasticSearchConfig;
+import com.atguigu.gulimall.order.bean.User;
+import com.atguigu.gulimall.order.config.ElasticSearchConfig;
 import org.apache.shiro.authc.Account;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
