@@ -35,11 +35,7 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
-        <!-- Lettuce的bug导致netty堆外内存溢出 切换使用jedis -->
-        <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
-        </dependency>
+
         <!--  整合Spring Session完成session共享问题 微服务自治，就不放在common里了 -->
         <dependency>
             <groupId>org.springframework.session</groupId>
@@ -57,8 +53,11 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
-
+        <!-- Lettuce的bug导致netty堆外内存溢出 切换使用jedis -->
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+        </dependency>
         <!--在不重启服务器的时候，实时更新html-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

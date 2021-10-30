@@ -6,7 +6,7 @@ spring:
     redis:
       time-to-live: 600000
       cache-null-values: true
-# 自定义线程池参数
+# 鑷畾涔夌嚎绋嬫睜鍙傛暟
 gulimall:
   thread:
     corePoolSize: 10

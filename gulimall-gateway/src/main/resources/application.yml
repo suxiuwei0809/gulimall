@@ -57,6 +57,10 @@
 #          uri: lb://gulimall-cart
 #          predicates: #host鉴权cart.gulimall.com来的请求都路由到gulimall-cart服务
 #            - Host=cart.gulimall.com
+#        - id: host_order
+#          uri: lb://gulimall-order
+#          predicates: #host鉴权order.gulimall.com来的请求都路由到gulimall-order服务
+#            - Host=order.gulimall.com
 #        - id: host_route
 #          uri: lb://gulimall-product
 #          predicates: #host鉴权**.gulimall.com来的请求都路由到gulimall-product服务

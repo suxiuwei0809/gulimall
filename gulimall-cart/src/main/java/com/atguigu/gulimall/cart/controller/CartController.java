@@ -7,10 +7,7 @@ import com.atguigu.gulimall.cart.vo.CartVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -20,9 +17,15 @@ public class CartController {
     @Autowired
     private CartService cartService;
 
+    @RequestMapping("/{memberId}/currentUserCartItems")
+    public List<CartItemVo> currentUserCartItems(@PathVariable("memberId")long memberId) {
+        return cartService.getUserCartItems(memberId);
+    }
+
+
     @RequestMapping("/cart.html")
     public String getCartList(Model model) {
-        CartVo cartVo=cartService.getCart();
+        CartVo cartVo = cartService.getCart();
         model.addAttribute("cart", cartVo);
         return "cartList";
     }
@@ -33,9 +36,8 @@ public class CartController {
     }
 
 
-
     @GetMapping("/addToCart")
-    public  String  addToCart(@RequestParam("skuId")String skuId,@RequestParam("num")Integer  num){
+    public String addToCart(@RequestParam("skuId") String skuId, @RequestParam("num") Integer num) {
         return "success";
     }
 
@@ -43,6 +45,7 @@ public class CartController {
      * 添加商品到购物车
      * RedirectAttributes.addFlashAttribute():将数据放在session中，可以在页面中取出，但是只能取一次
      * RedirectAttributes.addAttribute():将数据放在url后面
+     *
      * @return
      */
     @RequestMapping("/addCartItem")
@@ -53,7 +56,7 @@ public class CartController {
     }
 
     @RequestMapping("/addCartItemSuccess")
-    public String addCartItemSuccess(@RequestParam("skuId") Long skuId,Model model) {
+    public String addCartItemSuccess(@RequestParam("skuId") Long skuId, Model model) {
         CartItemVo cartItemVo = cartService.getCartItem(skuId);
         model.addAttribute("skuInfo", cartItemVo);
         return "success";
@@ -61,7 +64,7 @@ public class CartController {
 
 
     @RequestMapping("/checkCart")
-    public String checkCart(@RequestParam("isChecked") Integer isChecked,@RequestParam("skuId")Long skuId) {
+    public String checkCart(@RequestParam("isChecked") Integer isChecked, @RequestParam("skuId") Long skuId) {
         cartService.checkCart(skuId, isChecked);
         return "redirect:http://cart.gulimall.com/cart.html";
     }
